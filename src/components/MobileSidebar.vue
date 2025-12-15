@@ -33,9 +33,17 @@ export default defineComponent({
     onLogout: {
       type: Function,
       required: true
+    },
+    logoType: {
+      type: String,
+      default: 'text' // 'text' or 'image'
+    },
+    logoSrc: {
+      type: String,
+      default: ''
     }
   },
-  setup() {
+  setup(props) {
     const route = useRoute()
 
     const menuItems: MenuItem[] = [
@@ -55,7 +63,8 @@ export default defineComponent({
       Users,
       UserCog,
       FileText,
-      ClipboardList
+      ClipboardList,
+      props
     }
   }
 })
@@ -101,7 +110,15 @@ export default defineComponent({
           borderColor: themeConfig.header.borderColor
         }"
       >
-        <h1 class="text-lg font-bold tracking-tight" :style="{ color: themeConfig.typography.heading }">VIGOR</h1>
+        <template v-if="props.logoType === 'image' && props.logoSrc">
+          <img
+            :src="props.logoSrc"
+            alt="Logo"
+            class="h-8 w-auto object-contain mx-auto"
+            style="max-width: 120px;"
+          />
+        </template>
+        <h1 v-else class="text-lg font-bold tracking-tight text-center" :style="{ color: themeConfig.typography.heading }">VIGOR</h1>
         <Button variant="ghost" size="sm" class="h-8 w-8 p-0" @click="onClose">
           <X class="h-4 w-4" />
         </Button>

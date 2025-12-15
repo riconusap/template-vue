@@ -22,7 +22,17 @@ export default defineComponent({
     TooltipTrigger,
     ChevronLeft, ChevronRight, LayoutDashboard, Users, UserCog, FileText, ClipboardList
   },
-  setup() {
+  props: {
+    logoType: {
+      type: String,
+      default: 'text' // 'text' or 'image'
+    },
+    logoSrc: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props) {
     const route = useRoute()
     const isCollapsed = ref(false)
 
@@ -50,7 +60,8 @@ export default defineComponent({
       Users,
       UserCog,
       FileText,
-      ClipboardList
+      ClipboardList,
+      props
     }
   }
 })
@@ -66,22 +77,32 @@ export default defineComponent({
         transitionDuration: themeConfig.transitions.slow
       }"
     >
-      <div class="flex items-center border-b px-4 justify-between"
+      <div class="flex items-center border-b px-4 relative"
         :style="{
           height: themeConfig.header.height,
           borderColor: themeConfig.header.borderColor
         }"
       >
-        <h1 
-          v-show="!isCollapsed"
-          class="text-lg font-bold tracking-tight transition-opacity duration-300"
-        >
-          VIGOR
-        </h1>
+        <template v-if="!isCollapsed">
+          <img
+            v-if="props.logoType === 'image' && props.logoSrc"
+            :src="props.logoSrc"
+            alt="Logo"
+            class="absolute left-1/2 -translate-x-1/2 h-8 w-auto object-contain transition-opacity duration-300"
+            style="max-width: 120px;"
+          />
+          <h1
+            v-else
+            class="absolute left-1/2 -translate-x-1/2 text-lg font-bold tracking-tight text-center transition-opacity duration-300"
+            style="width: max-content;"
+          >
+            VIGOR
+          </h1>
+        </template>
         <Button 
           variant="ghost" 
           size="sm" 
-          class="h-8 w-8 p-0 flex-shrink-0"
+          class="h-8 w-8 p-0 flex-shrink-0 ml-auto"
           @click="toggleSidebar"
         >
           <ChevronLeft v-if="!isCollapsed" class="h-4 w-4" />

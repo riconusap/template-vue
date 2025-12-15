@@ -2,6 +2,13 @@
 // Customize aplikasi dengan mudah melalui file ini
 
 export const themeConfig = {
+  // Logo Configuration
+  logo: {
+    type: 'text', // 'text' or 'image'
+    text: 'VIGOR',
+    image: '/logo.png', // Path to logo image (public folder or assets)
+    alt: 'VIGOR Logo',
+  },
   // Brand Colors
   brand: {
     primary: '#213448',      // slate-900 - warna utama aplikasi
