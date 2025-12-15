@@ -71,7 +71,7 @@ export default defineComponent({
         <Button variant="ghost" size="sm" class="h-8 w-8 p-0 md:hidden" @click="onToggleMobileMenu">
           <Menu class="h-5 w-5" />
         </Button>
-        <h1 class="ml-4 text-lg font-bold tracking-tight" :class="isSidebarCollapsed ? 'md:block' : 'md:hidden'">NexERP</h1>
+        <h1 class="ml-4 text-lg font-bold tracking-tight" :class="isSidebarCollapsed ? 'md:block' : 'md:hidden'">VIGOR</h1>
       </div>
 
       <!-- User Dropdown -->

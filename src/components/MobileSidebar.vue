@@ -101,7 +101,7 @@ export default defineComponent({
           borderColor: themeConfig.header.borderColor
         }"
       >
-        <h1 class="text-lg font-bold tracking-tight" :style="{ color: themeConfig.typography.heading }">NexERP</h1>
+        <h1 class="text-lg font-bold tracking-tight" :style="{ color: themeConfig.typography.heading }">VIGOR</h1>
         <Button variant="ghost" size="sm" class="h-8 w-8 p-0" @click="onClose">
           <X class="h-4 w-4" />
         </Button>

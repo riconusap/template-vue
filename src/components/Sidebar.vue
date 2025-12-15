@@ -76,7 +76,7 @@ export default defineComponent({
           v-show="!isCollapsed"
           class="text-lg font-bold tracking-tight transition-opacity duration-300"
         >
-          NexERP
+          VIGOR
         </h1>
         <Button 
           variant="ghost" 
