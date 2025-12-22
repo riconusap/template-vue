@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue'
 import { Check } from 'lucide-vue-next'
-import type { Step } from '@/composables/useMultiStepForm'
+import type { Step } from '@/composables/useStepTypes'
 
 export default defineComponent({
   name: 'HorizontalStepper',

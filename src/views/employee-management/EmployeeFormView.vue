@@ -1,63 +1,3 @@
-<script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { format } from 'date-fns'
-import { id as idLocale } from 'date-fns/locale'
-import { ArrowLeft, XCircle, CalendarIcon, ChevronRight } from 'lucide-vue-next'
-
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-
-import StepperTooltip from '@/components/StepperTooltip.vue'
-import HorizontalStepper from '@/components/HorizontalStepper.vue'
-import VerticalStepper from '@/components/VerticalStepper.vue'
-
-import { useEmployeeForm } from '@/composables/useEmployeeForm'
-import { useFormValidation } from '@/composables/useFormValidation'
-import { EMPLOYEE_FORM_STEPS } from '@/composables/useMultiStepForm'
-import { useMultiStepForm } from '@/composables/useMultiStepFormBase'
-
-// Use steps from composable
-const steps = EMPLOYEE_FORM_STEPS
-
-const TOTAL_STEPS = steps.length
-
-// Composables
-const { form, errors: formErrors, showErrorDialog, errorMessage, dateValue, isEdit, loadEmployee, handleSubmit: submitForm, handleCancel, handleDateSelect: selectDate, closeErrorDialog } = useEmployeeForm()
-
-const { validateStep, clearError: clearFieldError } = useFormValidation()
-
-const { currentStep, stepperPosition, hoveredStep, hoveredElement, nextStep: next, prevStep, goToStep: navigateToStep, toggleStepperPosition, showTooltip, hideTooltip } = useMultiStepForm(TOTAL_STEPS, async (step: number) => {
-  return await validateStep(form, formErrors, step)
-})
-
-const errors = formErrors
-
-
-// Computed
-const dateText = computed(() => {
-  if (dateValue.value) {
-    return format(dateValue.value, 'dd MMMM yyyy', { locale: idLocale })
-  }
-  return 'Pilih tanggal'
-})
-
-// Lifecycle
-onMounted(() => {
-  loadEmployee()
-})
-
-// Helper function to clear specific field error
-const clearError = async (field: string) => {
-  await clearFieldError(field, form, formErrors, currentStep.value)
-}
-</script>
-
 <template>
   <div class="space-y-6">
     <!-- <div class="flex items-center gap-4">
@@ -639,3 +579,107 @@ const clearError = async (field: string) => {
     </AlertDialog>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent, computed, onMounted } from 'vue'
+import { format } from 'date-fns'
+import { id as idLocale } from 'date-fns/locale'
+import { ArrowLeft, XCircle, CalendarIcon, ChevronRight } from 'lucide-vue-next'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Calendar } from '@/components/ui/calendar'
+
+import StepperTooltip from '@/components/StepperTooltip.vue'
+import HorizontalStepper from '@/components/HorizontalStepper.vue'
+import VerticalStepper from '@/components/VerticalStepper.vue'
+
+import { useEmployeeForm } from '@/composables/useEmployeeForm'
+import { useFormValidation } from '@/composables/useFormValidation'
+import { EMPLOYEE_FORM_STEPS } from '@/composables/useMultiStepForm'
+import { useMultiStepForm } from '@/composables/useMultiStepFormBase'
+
+export default defineComponent({
+  name: 'EmployeeFormView',
+  components: {
+    Button,
+    Input,
+    Label,
+    Card, CardContent, CardDescription, CardHeader, CardTitle,
+    AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+    Popover, PopoverContent, PopoverTrigger,
+    Calendar,
+    StepperTooltip,
+    HorizontalStepper,
+    VerticalStepper,
+    ArrowLeft, XCircle, CalendarIcon, ChevronRight
+  },
+  setup() {
+    // Use steps from composable
+    const steps = EMPLOYEE_FORM_STEPS
+    const TOTAL_STEPS = steps.length
+
+    // Composables
+    const { form, errors: formErrors, showErrorDialog, errorMessage, dateValue, isEdit, loadEmployee, handleSubmit: submitForm, handleCancel, handleDateSelect: selectDate, closeErrorDialog } = useEmployeeForm()
+    const { validateStep, clearError: clearFieldError } = useFormValidation()
+    const { currentStep, stepperPosition, hoveredStep, hoveredElement, nextStep: next, prevStep, goToStep: navigateToStep, toggleStepperPosition, showTooltip, hideTooltip } = useMultiStepForm(TOTAL_STEPS, async (step: number) => {
+      return await validateStep(form, formErrors, step)
+    })
+    const errors = formErrors
+
+    // Computed
+    const dateText = computed(() => {
+      if (dateValue.value) {
+        return format(dateValue.value, 'dd MMMM yyyy', { locale: idLocale })
+      }
+      return 'Pilih tanggal'
+    })
+
+    // Lifecycle
+    onMounted(() => {
+      loadEmployee()
+    })
+
+    // Helper function to clear specific field error
+    const clearError = async (field: string) => {
+      await clearFieldError(field, form, formErrors, currentStep.value)
+    }
+
+    return {
+      steps,
+      TOTAL_STEPS,
+      form,
+      errors,
+      showErrorDialog,
+      errorMessage,
+      dateValue,
+      isEdit,
+      loadEmployee,
+      submitForm,
+      handleCancel,
+      selectDate,
+      closeErrorDialog,
+      validateStep,
+      clearFieldError,
+      currentStep,
+      stepperPosition,
+      hoveredStep,
+      hoveredElement,
+      next,
+      prevStep,
+      navigateToStep,
+      toggleStepperPosition,
+      showTooltip,
+      hideTooltip,
+      dateText,
+      clearError
+    }
+  }
+})
+</script>
